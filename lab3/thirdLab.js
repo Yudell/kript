@@ -1,25 +1,7 @@
 import fs from 'fs';
 
 const cipherText = fs.readFileSync('lab3/8.15.txt', 'utf8');
-const formatedText = cipherText.replace(/[\r]/g, "");
-
-function strings() {
-    let eachString = [];
-    let string = '';
-    for (let index = 0; index < formatedText.length; index++) {
-        const element = formatedText[index];
-        if (element !== "\n") {
-            string += element;
-        } else {
-            eachString.push(string);
-            string = '';
-        }
-    }
-    if (string.length > 0) {
-        eachString.push(string);
-    }
-    return eachString;
-}
+const formatedText = cipherText.replace(/[\r]/g, "").split("\n");
 
 function transponir(stroka) {
     if (!stroka || stroka.length === 0) {
@@ -35,21 +17,11 @@ function transponir(stroka) {
         }
         columns.push(currentColumn);
     }
-    return columns;
-    /*let columns = [];
-    for (let i = 0; i < 15; i++) {
-        let currentColumn = '';
-        for (let j = 0; j < stroka.length; j++) {
-            currentColumn += stroka[j][i];
-        }
-        columns.push(currentColumn);
-        
-    }
-    return columns;*/
+    return columns;   
 }
 
-const stringArray = strings();
-const col = transponir(stringArray);
+const filteredStrings = formatedText.filter((word) => word.length > 0);
+const col = transponir(filteredStrings);
 
 const myaZnakZapr = ['А', 'Е', 'Ё', 'И', 'О', 'У', 'Ы', 'Э', 'Ю', 'Я', '_'];
 const iKratkoe = ['Б', 'В', 'Г', 'Д', 'Ж', 'З', 'К', 'Л', 'М', 'Н', 'П', 'Р', 'С', 'Т', 'Ф', 'Х', 'Ц', 'Ч', 'Ш', 'Щ', '_'];
@@ -69,9 +41,9 @@ function checkTwoColumns(colA, colB) {
 
 function buildMatrix(cols) {
     let matrix = [];
-    for (let i = 0; i < 15; i++) {
+    for (let i = 0; i < col.length; i++) {
         let row = [];
-        for (let j = 0; j < 15; j++) {
+        for (let j = 0; j < col.length; j++) {
             const compatible = checkTwoColumns(cols[i], cols[j]);
             row.push(compatible)            ;
         }
