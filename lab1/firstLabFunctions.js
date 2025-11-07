@@ -54,7 +54,7 @@ function userAnswer(inputArray) {
     });
 }
 
-function calculateTwoTextsChi2(frequencies1, frequencies2) {
+export function calculateTwoTextsChi2(frequencies1, frequencies2) {
     const values1 = Object.keys(frequencies1);
     const values2 = Object.keys(frequencies2);
     const uniqueBigrams = new Set([...values1, ...values2]);
