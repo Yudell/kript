@@ -7,13 +7,25 @@ function cipher(nameFile, gama) {
     for (let i = 0; i < nameFile.length; i++) {
         const eachByte = nameFile[i];
         const gammaByte = gammaBuffer[i % gammaBuffer.length];
-        const cipheredByte = eachByte ^ gammaByte;
+        const cipheredByte = (eachByte + gammaByte) % 256;
         resultBuffer[i] = cipheredByte;
     }
     return resultBuffer;
 }
 
-function processFile(processingFunction) {
+function decipher(nameFile, gama) {
+    const gammaBuffer = Buffer.from(gama, 'utf-8');
+    const resultBuffer = Buffer.alloc(nameFile.length);
+    for (let i = 0; i < nameFile.length; i++) {
+        const eachByte = nameFile[i];
+        const gammaByte = gammaBuffer[i % gammaBuffer.length];
+        const cipheredByte = (256 + eachByte - gammaByte) % 256;
+        resultBuffer[i] = cipheredByte;
+    }
+    return resultBuffer;
+}
+
+function processFile(cipherFunction) {
     inquirer.prompt([
         {
             type: 'input',
@@ -34,7 +46,7 @@ function processFile(processingFunction) {
     })
     .then(data => {
         const { fileContent, gamma } = data;
-        const result = processingFunction(fileContent, gamma);
+        const result = cipherFunction(fileContent, gamma);
         console.log(result);
 
         return inquirer.prompt([
@@ -56,8 +68,13 @@ function inqWork() {
         message: 'Зашифровать или расшифровать?',
         choices: ['Зашифровать', 'Расшифровать']
     }])
-    .then(choice => {
-        processFile(cipher);
+    .then((userchoice) => {
+        if (userchoice.decipher === 'Зашифровать') {
+            processFile(cipher);
+        } else {
+            processFile(decipher);
+        }
+        
     });
 }
 
