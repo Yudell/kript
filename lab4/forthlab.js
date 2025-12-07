@@ -70,7 +70,7 @@ for (let R = 2; R <= 50; R++) {
             for (let s = 0; s < alphabet.length; s++) { 
                 let currentMatch = 0;
                 for (let j = 0; j < alphabet.length; j++) {
-                    let match = etalonFreq[j] * currentColFreq[(j + s) % 30];
+                    let match = etalonFreq[j] * currentColFreq[(j + s) % alphabet.length];
                     currentMatch += match;
                 }
                 if (currentMatch > maxMatch) {
