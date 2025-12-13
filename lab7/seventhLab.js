@@ -18,8 +18,7 @@ function binString(bin) {
     let str = "";
     for (let i = 0; i < bin.length; i += 8) {
         const byte = bin.slice(i, i + 8);
-        const byteStr = byte.join("");
-        const decimal = parseInt(byteStr, 2);
+        const decimal = parseInt(byte.join(""), 2);
         if (decimal !== 0) {
             str += String.fromCharCode(decimal);
         }
@@ -43,7 +42,7 @@ function bitsToBuffer(bits) {
     const bytes = [];
     for (let i = 0; i < bits.length; i += 8) {
         const chunk = bits.slice(i, i + 8);
-        const byteVal = parseInt(chunk.join(''), 2);
+        const byteVal = parseInt(chunk.join(""), 2);
         bytes.push(byteVal);
     }
     return Buffer.from(bytes);
